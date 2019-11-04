@@ -1,0 +1,40 @@
+{
+	"mysql":
+	{
+		"host": "127.0.0.1",
+		"username": "root",
+		"password": "",
+		"dbname": "php_messenger"
+	},
+
+	"session":
+	{
+		"session_name": "user",
+		"token_name": "_token"
+	},
+
+	"cookie": 
+	{
+		"cookie_name": "hash",
+		"cookie_expiry": "604800"
+	},
+
+	"root": 
+	{
+		"root_name" : "_page"
+	},
+
+	"validation_message": 
+	{
+		"text" : " must be only letters",
+		"required" : " must be required",
+		"min_cahr" : " must be minumum # characters",
+		"max_cahr" : " must be maximum # characters",
+		"password_match" : "Passwords didn't match",
+		"unique" : " is already used",
+		"email" : " isn't true email format",
+		"min" : " is greater than #",
+		"max" : " is smaller than #"
+	}
+
+}
