@@ -32,6 +32,7 @@ class DB
 		}
 		return self::$_connect;
 	}
+
 	public function query($sql, $data = array())
 	{
 		if ($this->_query = $this->_pdo->prepare($sql)) {
@@ -51,6 +52,7 @@ class DB
 		}
 		return $this;
 	}
+
 	public function select($table, $data = [], $column = "*", $limit = "25", $equal = "=")
 	{
 		if (is_array($table)) {
@@ -66,9 +68,9 @@ class DB
 		if(!$this->query($sql, $data)->error()){
 		 	return $this;
 		}
-
 		return false;
 	}
+
 	public function insert($table, $data = array())
 	{
 		if(empty($data)){
@@ -95,11 +97,12 @@ class DB
 		return false;
 	}
 
-	public function update($table, $data = array(), $id = null)
+	public function update($table, $data = array(), $id, $column = null, $method = "OR")
 	{
 		$set = "";
 		$x = 1;
-		$tb_id = $this->findIdName($table);
+
+		$tb_id = (is_null($column))? $this->findIdName($table) : $column;
 		foreach ($data as $key => $value) {
 			$set .= "{$key} = ?";
 			if ($x < count($data)) {
@@ -107,8 +110,20 @@ class DB
 			}
 			$x++;
 		}
+		$sql = "UPDATE {$table} SET {$set} WHERE ";
 
-		$sql = "UPDATE {$table} SET {$set} WHERE {$tb_id} = {$id}";
+		if (is_array($tb_id)) {
+			$x = 0;
+			foreach ($tb_id as $col) {
+			 	if ($x >= 1) {
+			 		$sql .= " {$method} ";
+			 	}
+			 	$sql .= "{$col} = {$id}";
+			 	$x++;
+			} 
+		}else{
+			$sql .= "{$tb_id} = {$id}";
+		}
 
 		if(!$this->query($sql, $data)->error()){
 		 	return $this;
@@ -116,14 +131,14 @@ class DB
 		return false;
 	}
 
-	public function delete($table, $data = array())
+	public function delete($table, $data = array(), $equal = "=", $method = "AND")
 	{
 
 		if (is_array($table)) {
 			if (empty($data)) {
 				return false;
 			}else{
-				$sql = "DELETE A".$this->join($table, $data);
+				$sql = "DELETE A".$this->join($table, $data, $equal, $method);
 			}
 			
 		}else{
@@ -131,7 +146,7 @@ class DB
 				return false;
 			}
 			else{
-				$sql = "DELETE FROM {$table} ".$this->sql($data);
+				$sql = "DELETE FROM {$table} ".$this->sql($data, $equal, $method);
 			}
 		}
 		
@@ -140,7 +155,8 @@ class DB
 		}
 		return false;
 	}
-	private function join($table = array(), $data = array())
+	
+	private function join($table = array(), $data = array(), $equal = "=" , $method = "AND")
 	{
 		if (count($table) == 3) {
 			$id1 = $this->findIdName($table[0]);
@@ -149,9 +165,9 @@ class DB
 			if (empty(!$data)) {
 				$data_key = array_keys($data);
 				if (count($data) = 2) {
-					$sql .= $this->sql(array("A.{$data_key[0]}" => $data[$data_key[0]], "C.{$data_key[1]}" => $data[$data_key[1]]));
+					$sql .= $this->sql(array("A.{$data_key[0]}" => $data[$data_key[0]], "A.{$data_key[1]}" => $data[$data_key[1]]), $equal, $method);
 				}elseif (count($data) = 1) {
-					$sql .= $this->sql(array("A.{$data_key[0]}" => $data[$data_key[0]]));
+					$sql .= $this->sql(array("A.{$data_key[0]}" => $data[$data_key[0]]), $equal, $method);
 				}
 				
 			}else{
@@ -163,9 +179,9 @@ class DB
 			$sql = " FROM {$table[0]} AS A INNER JOIN {$table[1]} AS B ON (A.{$id1} = B.{$id1}) ";
 			if (empty(!$data)) {
 				if (count($data) = 2) {
-					$sql .= $this->sql(array("A.{$data_key[0]}" => $data[$data_key[0]], "B.{$data_key[1]}" => $data[$data_key[1]]));
+					$sql .= $this->sql(array("A.{$data_key[0]}" => $data[$data_key[0]], "B.{$data_key[1]}" => $data[$data_key[1]]), $equal, $method);
 				}elseif (count($data) = 1) {
-					$sql .= $this->sql(array("A.{$data_key[0]}" => $data[$data_key[0]]));
+					$sql .= $this->sql(array("A.{$data_key[0]}" => $data[$data_key[0]]), $equal, $method);
 				}
 			}else{
 				$sql .= "LIMIT 25";
@@ -175,6 +191,10 @@ class DB
 		return false;
 	}
 
+	public function lastID()
+	{
+		return $this->_pdo->lastInsertId();
+	}
 	public function search($table, $data = array(), $empty = false, $column = "*", $limit = "10")
 	{
 		if (empty($data)) {
@@ -218,7 +238,7 @@ class DB
 			}
 		}
 	}
-	public function sql($data, $equal = "=")
+	public function sql($data, $equal = "=", $method = "AND")
 	{
 		$sql1 = "WHERE ";
 		$sql2 = "";
@@ -237,7 +257,7 @@ class DB
 				for ($g=0; $g < count($data); $g++) { 
 					if (2**$g == $d+1) {
 						if ($d < count($data)-1) {
-							$sql2 = $sql2." AND ";
+							$sql2 = $sql2." {$method} ";
 						}
 						else{
 							$sql2.= "";

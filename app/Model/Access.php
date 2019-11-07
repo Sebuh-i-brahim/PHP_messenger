@@ -2,19 +2,23 @@
 
 namespace app\Model;
 
-use Devices, Model;
+use app\Interface\Model;
+use Devices;
+use core\Main\SaveException;
 
-class Access extends Devices implements Model
+
+class Access extends Devices
 {
-	private $_user,
-			$_device,
-			$_db,
+	private $_device,
 			$_data,
-			$_access;
+			$_access = false;
 
-	function __construct()
+	function __construct($id = null)
 	{
-		parent::__construct();
+		parent::__construct($id);
+		if (parent::access()) {
+			$this->_data = parent::db()->select('access', array())
+		}
 	}
 
 	public function get($data = [])
@@ -26,7 +30,13 @@ class Access extends Devices implements Model
 	{
 
 	}
+
 	public function update($data = [])
+	{
+
+	}
+
+	public function delete()
 	{
 
 	}

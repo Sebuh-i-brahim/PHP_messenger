@@ -1,6 +1,6 @@
 <?php
 
-use core\Main\View as View;
+use core\Main\View;
 
 function view($path, $data = array())
 {
@@ -23,6 +23,13 @@ function is_email($string)
 		return false;
 	}
 	return true;
+}
+
+function array_row($data = array(), $field = array())
+{
+	$column = array_column($data, array_keys($field)[0]);
+	$found_key = array_search($field[array_keys($field)[0]], $column);
+	return ($found_key)? $data[$found_key] : false;
 }
 
 

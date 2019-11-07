@@ -4,7 +4,7 @@ namespace app\Controller;
 
 class Controller 
 {
-public static function yazdir($string)
+	public static function yazdir($string)
 	{
 		echo "yxuzuhu";
 	}
@@ -12,5 +12,10 @@ public static function yazdir($string)
 	{
 		//var_dump($data);
 		echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBB";
+	}
+
+	public static function lamp()
+	{
+		echo "HmmcdsckkHA - ha - HA - HAabhhhahahahah";
 	}
 }

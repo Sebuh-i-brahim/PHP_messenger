@@ -2,15 +2,18 @@
 
 namespace app\Model;
 
-use Participants, Model;
+use app\Interface\Model;
+use Participants;
+use core\Main\SaveException;
+
 
 
 class Block_list extends Participants implements Model
 {
 	
-	function __construct()
+	function __construct($id = null)
 	{
-		parent::__construct();
+		parent::__construct($id);
 	}
 
 	public function get($data = [])

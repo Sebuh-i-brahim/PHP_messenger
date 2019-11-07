@@ -2,7 +2,9 @@
 
 namespace app\Model;
 
-use Users, Model;
+use Users;
+use core\Main\SaveException;
+use app\Interface\Model;
 
 
 class Conversation extends Users implements Model

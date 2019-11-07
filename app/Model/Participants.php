@@ -2,8 +2,9 @@
 
 namespace app\Model;
 
-use Conversation, Model;
-
+use Conversation; 
+use app\Interface\Model;
+use core\Main\SaveException;
 
 class Participants extends Conversation implements Model
 {

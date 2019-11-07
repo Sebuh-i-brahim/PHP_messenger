@@ -2,7 +2,9 @@
 
 namespace app\Model;
 
-use Conversation, Model;
+use Conversation; 
+use app\Interface\Model;
+use core\Main\SaveException;
 
 
 class Deleted_conversation extends Conversation implements Model

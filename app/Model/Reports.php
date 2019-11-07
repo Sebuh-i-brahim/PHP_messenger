@@ -2,8 +2,9 @@
 
 namespace app\Model;
 
-use Participants, Model;
-
+use Participants; 
+use app\Interface\Model;
+use core\Main\SaveException;
 
 class Reports extends Participants implements Model
 {

@@ -5,9 +5,9 @@ namespace core\Main;
 /**
  * 
  */
-use Redirect;
+use core\Main\Redirect;
 
-use Session;
+use core\Main\Session;
 
 class View
 {
@@ -16,8 +16,8 @@ class View
 		if (!empty($data)) {
 			Session::put("data", $data);
 		}
-		Session::flash("view", $view);
+		Session::put("view", $view);
 
-		Redirect::to("view/view.php");
+		return require_once "../public/index.php";
 	}
 }

@@ -2,7 +2,9 @@
 
 namespace app\Model;
 
-use Messages, Model;
+use Messages, 
+use app\Interface\Model;
+use core\Main\SaveException;
 
 
 class Deleted_messages extends Messages implements Model

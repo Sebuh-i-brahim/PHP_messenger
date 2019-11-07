@@ -2,13 +2,12 @@
 
 namespace core\Main;
 
-class SaveException
+class SaveException 
 {
 	private $_exception;
 	
 	function __construct($message, $code = 0, Exception $previous = Null)
 	{
-		parent::__construct($message, $code);
 
 		$this->_exception = new Exception($message, $code)
 
@@ -20,7 +19,7 @@ class SaveException
 
 		$err_msg .= "Message: ".$this->_exception->getMessage(). "\r\n\r\n";
 
-		$file = fopen('error.txt', 'abt');
+		$file = fopen('../../error.txt', 'abt');
 
 		fwrite($file, $err_msg);
 

@@ -7,6 +7,7 @@ use core\Main\Config;
 use core\Main\Session;
 use core\Main\Cookie;
 use core\Main\Hash;
+use core\Main\SaveException;
 
 class Users 
 {
@@ -43,7 +44,7 @@ class Users
 	public function create($data = [])
 	{
 		if (!$this->_db->insert("users", $data)) {
-			throw new Exception("There was an error creating an account");
+			throw new SaveException("There was an error creating an account");
 		}
 	}
 
@@ -53,7 +54,7 @@ class Users
 			$id = $this->data('user_id');
 		}
 		if (!$this->_db->update('users', $data, $id)) {
-			throw new Exception("There was an error Updating Data");	
+			throw new SaveException("There was an error Updating Data");	
 		}
 	}
 	public function find($user = null)
@@ -66,7 +67,7 @@ class Users
 			}
 			
 			$data = $this->_db->select('users', array($column => $user));
-			if ($data->_count()) {
+			if ($data->count()) {
 				$this->_data = $data->first();
 				return true;
 			}
@@ -86,7 +87,7 @@ class Users
 					if ($remember) {
 						$hash = Hash::unique();
 						$hash_db = $this->_db->select('users_session',array('user_id' => $this->data('user_id')));
-						if (!$hash_db->_count()) {
+						if (!$hash_db->count()) {
 							$this->_db->insert('users_session', array(
 								'user_id' => $this->data('user_id'),
 								'hash' => $hash
@@ -137,7 +138,7 @@ class Users
 	public function hasPermission($role)
 	{
 		$group = $this->_db->select('groups', array('group_id' => $this->data('group_id')));
-		if ($group->_count()) {
+		if ($group->count()) {
 			$permission = json_decode($group->first('permission'), true);
 			if ($permission[$role] == true) {
 				return true;

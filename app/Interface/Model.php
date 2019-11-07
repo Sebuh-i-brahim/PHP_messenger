@@ -4,7 +4,10 @@ namespace app\Model;
 
 interface Model
 {
-	public function get($data = []);
+
+	public function __construct($id = null);
+
+	public function get($column = null);
 
 	public function insert($data = []);
 
