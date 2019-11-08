@@ -2,10 +2,7 @@
 
 namespace core\Main;
 
-/**
- * 
- */
-use Config;
+use core\Main\Config;
 
 class DB
 {

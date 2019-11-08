@@ -2,16 +2,13 @@
 
 namespace core\Main;
 
-/**
- * 
- */
 use core\Main\Redirect;
 
 use core\Main\Session;
 
 class View
 {
-	public static function get($view, $data = [])
+	public static function get($view, $data = array())
 	{
 		if (!empty($data)) {
 			Session::put("data", $data);

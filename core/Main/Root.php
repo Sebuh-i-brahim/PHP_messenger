@@ -2,17 +2,25 @@
 
 namespace core\Main;
 
-use core\Main\Token, core\Main\Config, core\Main\Request;
+use core\Main\Token; 
+use core\Main\Config; 
+use core\Main\Request;
+use core\Main\Redirect;
 
 class Root 
-{		
+{	
+	private static $_root = false;	
+
 	public static function post($to, $controller)
 	{
 		if (Request::exist('post')) {
-			if ($this->checkToken()) {
+			if (self::checkToken()) {
 				if (Request::get(Config::get('root/root_name')) == $to || Request::get(Config::get('root/root_name')) == "/".$to) {
+					self::$_root = true;
 					$name = makeController($controller);
-					call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), Request::all());	
+					// var_dump(Request::all('post'));
+					// die();
+					call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), array(Request::all('post')));	
 				}
 			}
 		}
@@ -23,8 +31,9 @@ class Root
 	{
 		if (Request::exist('get')) {
 			if (Request::get(Config::get('root/root_name')) == $to || Request::get(Config::get('root/root_name')) == "/".$to) {
+				self::$_root = true;
 				$name = makeController($controller);
-				call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), Request::all());
+				call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), array(Request::all('get')));
 			}
 		}
 		return false;
@@ -32,10 +41,11 @@ class Root
 	public static function put($to, $controller)
 	{
 		if (Request::exist('put')) {
-			if ($this->checkToken()) {
+			if (self::checkToken()) {
 				if (Request::get(Config::get('root/root_name')) == $to || Request::get(Config::get('root/root_name')) == "/".$to) {
+					self::$_root = true;
 					$name = makeController($controller);
-					call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), Request::all());	
+					call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), array(Request::all('post')));	
 				}
 			}
 		}
@@ -44,10 +54,11 @@ class Root
 	public static function delete($from, $to)
 	{
 		if (Request::exist('delete')) {
-			if ($this->checkToken()) {
+			if (self::checkToken()) {
 				if (Request::get(Config::get('root/root_name')) == $to || Request::get(Config::get('root/root_name')) == "/".$to) {
+					self::$_root = true;
 					$name = makeController($controller);
-					call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), Request::all());	
+					call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), array(Request::all('post')));	
 				}
 			}	
 		}
@@ -55,6 +66,16 @@ class Root
 	}
 	public static function checkToken()
 	{
-		return Token::check(Request::get('_token'));
+		if (Token::check(Request::get(Config::get('session/token_name')))) {
+			return true;
+		}
+		Redirect::to(403);
+	}
+	public static function none()
+	{
+		if (!self::$_root) {
+			Redirect::to(404);
+		}
+		return false;
 	} 
 }

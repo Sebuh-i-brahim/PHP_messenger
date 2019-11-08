@@ -2,8 +2,8 @@
 
 namespace core\Main;
 
-use Config;
-use Session;
+use core\Main\Config;
+use core\Main\Session;
 class Token
 {
 	public static function generate()

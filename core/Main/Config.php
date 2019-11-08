@@ -2,9 +2,6 @@
 
 namespace core\Main;
 
-/**
- * 
- */
 class Config
 {
 	public static function get($path = null)

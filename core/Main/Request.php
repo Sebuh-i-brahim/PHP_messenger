@@ -6,6 +6,10 @@ namespace core\Main;
 class Request
 {
 
+	public function __construct()
+	{
+		return self::all();
+	}
 	public function data()
 	{
 		return $this->_data;
@@ -48,14 +52,18 @@ class Request
 		}
 		return '';
 	}
-	public static function all()
+	public static function all($method = null)
 	{
-		if($_POST){
-			return $_POST;
+		switch ($method) {
+			case 'post':
+				return $_POST;
+				break;
+			case 'get':
+				return $_GET;
+				break;
+			default:
+				return '';
+				break;
 		}
-		if ($_GET) {
-			return $_GET;
-		}
-		return '';
 	}
 }
