@@ -7,7 +7,7 @@ use core\Main\Redirect;
 
 
 if (Session::exist('view')) {
-	require_once "view/".Session::get('view').".php";
+	require_once "view/".Session::flash('view').".php";
 }else{
 	Redirect::to(404);
 }

@@ -17,10 +17,7 @@ class Root
 			if (self::checkToken()) {
 				if (Request::get(Config::get('root/root_name')) == $to || Request::get(Config::get('root/root_name')) == "/".$to) {
 					self::$_root = true;
-					$name = makeController($controller);
-					// var_dump(Request::all('post'));
-					// die();
-					call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), array(Request::all('post')));	
+					callController($controller, new Request);	
 				}
 			}
 		}
@@ -32,8 +29,7 @@ class Root
 		if (Request::exist('get')) {
 			if (Request::get(Config::get('root/root_name')) == $to || Request::get(Config::get('root/root_name')) == "/".$to) {
 				self::$_root = true;
-				$name = makeController($controller);
-				call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), array(Request::all('get')));
+				callController($controller, new Request);
 			}
 		}
 		return false;
@@ -44,8 +40,8 @@ class Root
 			if (self::checkToken()) {
 				if (Request::get(Config::get('root/root_name')) == $to || Request::get(Config::get('root/root_name')) == "/".$to) {
 					self::$_root = true;
-					$name = makeController($controller);
-					call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), array(Request::all('post')));	
+					callController($controller, new Request);
+	
 				}
 			}
 		}
@@ -57,8 +53,8 @@ class Root
 			if (self::checkToken()) {
 				if (Request::get(Config::get('root/root_name')) == $to || Request::get(Config::get('root/root_name')) == "/".$to) {
 					self::$_root = true;
-					$name = makeController($controller);
-					call_user_func_array(array('app\\Controller\\'.$name[0], $name[1]), array(Request::all('post')));	
+					callController($controller, new Request);
+	
 				}
 			}	
 		}

@@ -2,35 +2,57 @@
 
 namespace core\Main;
 
-class SaveException 
+use core\Main\Config;
+
+class SaveException extends \Exception 
 {
-	private $_exception;
 	
 	function __construct($message, $code = 0, Exception $previous = Null)
 	{
 
-		$this->_exception = new Exception($message, $code)
+		parent::__construct($message, $code, $previous);
 
-		$err_msg = "Date: ".date("Y-m-d H:i:s"). "\r\n";
+		$error_log = Config::get("error/error_log");
 
-		$err_msg .= "File: ".$this->_exception->getFile(). "\r\n";
+		if($error_log == 1):
 
-		$err_msg .= "Row: ".$this->_exception->getLine()."\r\n";
+			$delete = false;
 
-		$err_msg .= "Message: ".$this->_exception->getMessage(). "\r\n\r\n";
+			$error_file_path = Config::get("error/error_file_path");
 
-		$file = fopen('../../error.txt', 'abt');
+			if (file_exists($error_file_path)) {
+				$filetime = date ("F d Y", filemtime($error_file_path));
+				$now = date ("F d Y", time());
+				if ($now != $filetime) {
+					$delete = true;
+				}
+			}
 
-		fwrite($file, $err_msg);
+			$err_msg  = "* * * * * * * * * * * * * * * * * * * * * * * * *\r\n";
 
-		fclose($file);
+			$err_msg .= ">>> Date: ".date("Y-m-d H:i:s"). "\r\n";
 
-		return $this->_exception->getMessage();
-	}
+			$err_msg .= ">>> File: ".parent::getFile(). "\r\n";
 
-	static public function construct($message, $code = 0, Exception $previous = Null)
-	{
-		return self::__construct($message, $code = 0, $previous);
+			$err_msg .= ">>> Line: ".parent::getLine()."\r\n";
+
+			$err_msg .= ">>> Message: ".parent::getMessage(). "\r\n";
+
+			$err_msg .= "* * * * * * * * * * * * * * * * * * * * * * * * *\r\n\r\n";
+			
+			if ($delete) {
+				$file = fopen($error_file_path, 'wbt');
+			}else{
+				$file = fopen($error_file_path, 'abt');
+			}
+
+			fwrite($file, $err_msg);
+
+			fclose($file);
+
+		endif;
+
+		return parent;
 	}
 }
 

@@ -35,6 +35,10 @@
 		"email" : " isn't true email format",
 		"min" : " is greater than #",
 		"max" : " is smaller than #"
+	},
+	"error" : 
+	{
+		"error_log" : "1",
+		"error_file_path" : "public/error.txt"
 	}
-
 }

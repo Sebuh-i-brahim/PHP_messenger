@@ -1,0 +1,26 @@
+@import "variables"
+@import "functions"
+@import "mixins"
+
+*, *::before, *::after	
+	-webkit-box-sizing: border-box
+	box-sizing: border-box
+	padding: 0
+	margin: 0
+
+body
+	font-family: $font-family-sans-serif
+
+a 
+	text-decoration: none
+
+ul, ol
+	margin-bottom: 0
+
+@import "main"
+@import "home"
+@import "login"
+@import "register"
+// @import "admin";
+// @import "logout";
+

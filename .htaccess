@@ -1,4 +1,26 @@
 RewriteEngine on
 RewriteCond %{REQUEST} !-f
 RewriteCond %{REQUEST} !-d
+RewriteRule ^css/(.*)$ public/css/$1 [NC,L,QSA]
+RewriteRule ^public/css/(.*)$ public/css/$1 [NC,L,QSA]
+RewriteRule ^js/(.*)$ public/js/$1 [NC,L,QSA]
+RewriteRule ^public/js/(.*)$ public/js/$1 [NC,L,QSA]
+RewriteRule ^image/(.*)$ public/image/$1 [NC,L,QSA]
+RewriteRule ^public/image/(.*)$ public/image/$1 [NC,L,QSA]
 RewriteRule ^(.*)$ includes/web.php?_page=/$1 [NC,L,QSA]
+
+#RewriteCond %{REQUEST_URI} !^css/(.*)$
+#RewriteCond %{REQUEST_URI} !^js/(.*)$
+#RewriteCond %{REQUEST_URI} !^image/(.*)$
+
+#RewriteRule .? - [S=1]
+#RewriteRule ^(.*)$ includes/web.php?_page=/$1 [NC,L,QSA]
+
+#RewriteCond %{REQUEST_URI} ^css/(.*)$
+#RewriteRule ^css/(.*)$ public/css/$1 [NC,L,QSA]
+
+#RewriteCond %{REQUEST_URI} ^js/(.*)$
+#RewriteRule ^js/(.*)$ public/js/$1 [NC,L,QSA]
+
+#RewriteCond %{REQUEST_URI} ^image/(.*)$
+#RewriteRule ^image/(.*)$ public/image/$1 [NC,L,QSA]

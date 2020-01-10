@@ -1,0 +1,86 @@
+
+.login{
+	width: 100vw;
+	height: 100vh;
+	margin-top: 0;
+	padding-top: 50px;
+
+	&-bg-img{
+		position: fixed;
+		left: 0;
+		right: 0;
+		z-index: 1;
+		display: block;
+		background-image: url("../image/beatiful2.jpg");
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	
+	&-circle{
+		width: 600px;
+		height: 500px;
+		margin-left: auto;
+		margin-right: auto;
+		border: 2px solid $teal;
+		border-top-left-radius: 100%;
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
+		border-bottom-left-radius: 10px;
+		background-color: rgba($black, 0.6);
+		padding-top: 120px;
+		padding-left: auto;
+		padding-right: auto;
+		z-index: 2;                                      
+		@include media(900){
+			width: 500px;
+		}
+		@include media(600){
+			width: 80%;
+			border-top-left-radius: 10px;
+		}
+		&:hover{
+			box-shadow: 0 0 0 0.4rem rgba($purple, 0.5);
+			transition: border-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+		}
+	}
+
+	&-form{
+		display: block;
+		width: 60%;
+		margin-top: 50px;
+		margin-left: auto;
+		margin-right: auto;
+		& label{
+			display: block;
+			font-size: 1.4rem;
+			color: set-text-color($black);
+		}
+		& [type=text], & [type=password]{
+			display: block;
+			height: 50px;
+			width: 100%;
+			border: 2px solid $warning;
+			border-radius: 10px;
+			background: rgba($white, 0.25);
+			padding-left: 10px;
+			padding-right: 10px;
+			font-size: 1.4rem; 
+		}
+	}
+
+	& p{
+		margin: 10px auto;
+		width: 80%;
+		text-align: center;
+		font-size: 1.4rem;
+		color: set-text-color($black);
+		& a{
+			color: $primary;
+			&:hover{
+				color: $purple;
+			}
+		}
+	}
+
+}

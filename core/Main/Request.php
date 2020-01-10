@@ -4,11 +4,19 @@ namespace core\Main;
 
 
 class Request
-{
+{	
 
 	public function __construct()
 	{
-		return self::all();
+		$this->property(self::all(strtolower($_SERVER["REQUEST_METHOD"])));
+	}
+	public function property($data = array())
+	{
+		foreach ($data as $key => $value) {
+			if ($key != Config::get('session/token_name')) {
+				$this->{$key} = $value;
+			}
+		}
 	}
 	public function data()
 	{

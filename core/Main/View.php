@@ -13,7 +13,7 @@ class View
 		if (!empty($data)) {
 			Session::put("data", $data);
 		}
-		Session::put("view", $view);
+		Session::flash("view", $view);
 
 		return require_once "../public/index.php";
 	}

@@ -1,0 +1,45 @@
+
+@mixin transition-ease($duration: 0.5s){
+	-webkit-transition: all $duration ease-in-out;
+	transition: all $duration ease-in-out;
+}
+
+@mixin flex-column{
+	display: flex;
+	-ms-flex-direction: column;
+	flex-direction: column;
+}
+
+@mixin flex-row{
+	display: flex;
+	-ms-flex-direction: row;
+	flex-direction: row;
+}
+
+@mixin center($text: true){
+	@if($text){
+		align-items: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		text-align: center;
+	} @else{
+		align-items: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+	}
+}
+
+@mixin fade {
+	transition: opacity 0.15s linear;
+}
+
+@mixin media ($width){
+	@media only screen and (max-width: $width){
+		@content;
+	}
+}
+
+@mixin color($color){
+	background-color: $color;
+	color: set-text-color($color);
+}

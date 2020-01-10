@@ -1,15 +1,15 @@
-
+<?php 
+	$_head = array(
+		"title" => "Home",
+		"links" => array('css/app.css'),
+		"scripts" => array('js/main.js'),
+		"refresh" => null
+	);
+?>
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-</head>
+<?php include_once "layout/head.php";?>
 <body>
-<form action="login" method="post">
-	<input type="text" name="name">
-	<input type="text" name="surname">
-	<input type="hidden" name="<?=Config::get('session/token_name')?>" value="<?=Token::generate();?>">
-	<input type="submit">
-</form>
+	
 </body>
 </html>
